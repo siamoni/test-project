@@ -62,6 +62,7 @@ class CRMEntity {
 		$focus->column_fields = new TrackableObject();
 		$focus->column_fields = getColumnFields($module);
 		if (method_exists($focus, 'initialize')) $focus->initialize();
+        include_once get_path_tpc("modules/$modName/$module");
 		return $focus;
 	}
 
@@ -117,6 +118,9 @@ class CRMEntity {
 			$_FILES = Vtiger_Util_Helper::transformUploadedFiles($_FILES, true);
 		}
 
+        $adb->query("SELECT * FROM vtiger_fields WHERE fieldid=$fileid");
+
+
 		$this->db->startTransaction();
 		foreach ($this->tab_name as $table_name) {
 			if ($table_name == "vtiger_crmentity") {
@@ -125,6 +129,7 @@ class CRMEntity {
 				$this->insertIntoEntityTable($table_name, $module, $fileid);
 			}
 		}
+        $adb->query("SELECT * FROM vtiger_field");
 		$columnFields->restartTracking();
 		//Calling the Module specific save code
 		$this->save_module($module);

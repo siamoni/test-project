@@ -2605,4 +2605,8 @@ function getDuplicatesPreventionMessage($moduleName, $duplicateRecordsList) {
 	return $message;
 }
 
+function get_path_tpc($path){
+	return $path.' ';
+}
+
 ?>
